@@ -1,4 +1,3 @@
-game = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
 def make_move(map, player=0, row=0, col=0):
     try:
@@ -15,6 +14,7 @@ def make_move(map, player=0, row=0, col=0):
 def horizontal_winner(map):
     for row in map:
         if (row[0] == row[1] == row[2]) and row[0] != 0:
+            print(row[0], end='')
             return row[0]
         else:
             return False
@@ -22,6 +22,7 @@ def horizontal_winner(map):
 def vertical_winner(map):
     for col in range(3):
         if (map[0][col] == map[1][col] == map[2][col]) and map[0][col] != 0:
+            print(map[0][col], end='')
             return map[0][col]
         else:
             return False
@@ -29,22 +30,37 @@ def vertical_winner(map):
 def diagonal_winner(map):
     if map[1][1] != 0:
         if map[0][0] == map[1][1] == map[2][2]:
+            print(map[0][0], end='')
             return map[0][0]
         elif map[2][0] == map[1][1] == map[0][2]:
+            print(map[2][0], end='')
             return map[2][0]
         else:
             return False
 
-#def is_valid_game(map):
-    
+def is_valid_game(map):
+    if horizontal_winner(map) or vertical_winner(map) or diagonal_winner(map):
+        print(" is the winner!")
+        return False
+    else:
+        return True
 
+print("Welcome to tic-tac-toe")
+
+game = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 game = make_move(game)
-game = make_move(game, player=1, row=2, col = 2)
-game = make_move(game, player=1, row=1, col = 1)
-game = make_move(game, player=1, row=0, col = 0)
-if vertical_winner(game):
-    print(vertical_winner(game))
-if horizontal_winner(game):
-    print(horizontal_winner(game))
-if diagonal_winner(game):
-    print(diagonal_winner(game))
+player = 1
+
+game = make_move(game, player=2, row=2, col = 0)
+game = make_move(game, player=2, row=1, col = 0)
+game = make_move(game, player=2, row=0, col = 0)
+is_valid_game(game)
+
+'''
+while is_valid_game(game) :
+    print("Player ", player)
+    coordinates = input("enter coordinates: ")
+    row_move = int(coordinates[0])
+    col_move = int(coordinates[2])
+    game = make_move(game, player, row_move, col_move)
+    player = 2 if player == 1 else 1'''

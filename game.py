@@ -1,4 +1,3 @@
-
 def make_move(map, player=0, row=0, col=0):
     try:
         if player != 0:
@@ -11,50 +10,49 @@ def make_move(map, player=0, row=0, col=0):
         print("Error: make sure you enter position as 0 1 or 2")
 
 
-def horizontal_winner(map):
+def winner(map):
+    #horizontal
     for row in map:
-        if (row[0] == row[1] == row[2]) and row[0] != 0:
-            print(row[0], end='')
-            return row[0]
-        else:
-            return False
+        if row.count(row[0]) == len(row) and row[0] != 0:
+            print(f"Player {row[0]} is the winner! (horizontally)")
+            return True
 
-def vertical_winner(map):
-    for col in range(3):
-        if (map[0][col] == map[1][col] == map[2][col]) and map[0][col] != 0:
-            print(map[0][col], end='')
-            return map[0][col]
-        else:
-            return False
+    #vertical
+    for i in range(len(map)):
+        vals = [] #holds values of each column
+        for row in map:
+            vals.append(row[i])
+        if vals.count(vals[0]) == len(vals) and vals[0] != 0:
+            print(f"Player {vals[0]} is the winner! (vertically)")
+            return True
 
-def diagonal_winner(map):
-    if map[1][1] != 0:
-        if map[0][0] == map[1][1] == map[2][2]:
-            print(map[0][0], end='')
-            return map[0][0]
-        elif map[2][0] == map[1][1] == map[0][2]:
-            print(map[2][0], end='')
-            return map[2][0]
-        else:
-            return False
+    #diagonals
+    diag1 = [] #lower left to upper right
+    for row,col in enumerate(reversed(range(len(map)))):
+        diag1.append(map[row][col])
 
-def is_valid_game(map):
-    if horizontal_winner(map) or vertical_winner(map) or diagonal_winner(map):
-        print(" is the winner!")
-        return False
-    else:
+    diag2 = [] #upper left to bottom right
+    for i in range(len(map)):
+        diag2.append(map[i][i])
+
+    if diag1.count(diag1[0]) == len(diag1) and diag1[0] != 0:
+        print(f"Player {diag1[0]} is the winner! (diagonally /)")
         return True
+    elif diag2.count(diag2[0]) == len(diag2) and diag2[0] != 0:
+        print(f"Player {diag2[0]} is the winner! (diagonally \\)")
+        return True
+    else:
+        return False
+
 
 print("Welcome to tic-tac-toe")
 
-game = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+game = [[1, 2, 2],
+        [2, 2, 0],
+        [2, 0, 1]]
 game = make_move(game)
 player = 1
-
-game = make_move(game, player=2, row=2, col = 0)
-game = make_move(game, player=2, row=1, col = 0)
-game = make_move(game, player=2, row=0, col = 0)
-is_valid_game(game)
+winner(game)
 
 '''
 while is_valid_game(game) :

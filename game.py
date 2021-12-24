@@ -1,5 +1,7 @@
 def make_move(map, player=0, row=0, col=0):
     try:
+        if map[row][col] != 0:
+            raise ValueError("invalid position")
         if player != 0:
             map[row][col] = player
         print("   0  1  2")
@@ -9,6 +11,16 @@ def make_move(map, player=0, row=0, col=0):
     except IndexError as e:
         print("Error: make sure you enter position as 0 1 or 2")
 
+def stalemate(map):
+    count = 0
+    for row in map:
+        for x in row:
+            if x != 0:
+                count += 1
+
+    if count == (len(map))**2:
+        print("Stalemate!")
+        return True
 
 def winner(map):
     #horizontal
@@ -46,13 +58,32 @@ def winner(map):
 
 
 print("Welcome to tic-tac-toe")
+playing = True
 
-game = [[1, 2, 2],
-        [2, 2, 0],
-        [2, 0, 1]]
-game = make_move(game)
-player = 1
-winner(game)
+while playing:
+    game = [[0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]]
+    game = make_move(game)
+    player = 1
+    in_progress = True
+    while in_progress:
+        print("Player ", player)
+        coordinates = input("enter coordinates: ")
+        row_move = int(coordinates[0])
+        col_move = int(coordinates[2])
+        try:
+            game = make_move(game, player, row_move, col_move)
+            player = 2 if player == 1 else 1
+        except ValueError as e:
+            print("invalid position")
+        if winner(game) or stalemate(game):
+            play_again = input("Would you like to play again? (y/n): ")
+            if play_again == "y":
+                in_progress = False
+            else:
+                in_progress = False
+                playing = False
 
 '''
 while is_valid_game(game) :

@@ -84,12 +84,3 @@ while playing:
             else:
                 in_progress = False
                 playing = False
-
-'''
-while is_valid_game(game) :
-    print("Player ", player)
-    coordinates = input("enter coordinates: ")
-    row_move = int(coordinates[0])
-    col_move = int(coordinates[2])
-    game = make_move(game, player, row_move, col_move)
-    player = 2 if player == 1 else 1'''
